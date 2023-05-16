@@ -46,6 +46,7 @@
                 <li class="nav-item">
                   <a class="nav-link" aria-current="page" href="{{route('cart')}}">
                     <i class="fa fa-shopping-cart"></i>
+                    <span id="notificationBadge" class="position-absolute top-10 end-10 translate-middle badge bg-danger rounded-circle">0</span>
                   </a>
                 </li>
               @endif

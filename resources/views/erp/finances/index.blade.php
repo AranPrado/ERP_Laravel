@@ -21,18 +21,26 @@
             </tr>
             </thead>
             <tbody>
-              
-              
-                  
+              @if($clients->count() > 0 && $products->count() > 0)
+                @foreach($products as $product)                
                   <tr>
                     <th scope="row">1</th>
-                    <td>John Doe</td>
-                    <td><strong>R$450,00</strong></td>
-                    <td>20/2023 - 13:38</td>
+                    <td>Teste</td>
+                    <td><strong>R$ {{$product->price}}</strong></td>
+                    <td></td>
                   </tr>
-              
-              
+                @endforeach  
+              @endif
             </tbody>
+          
+            <tfoot>
+              <tr>
+                <td><h4>Valor total:</h4></td>
+                <td></td>
+                <td class="h5 fn-bold">R$ {{number_format($totalPrice, 2, ',', '.')}}</td>
+              </tr>
+            </tfoot>
+          
           </table>
         </div>
       </div>

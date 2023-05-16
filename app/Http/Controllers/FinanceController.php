@@ -17,9 +17,18 @@ class FinanceController extends Controller
      */
     public function index()
     {
+        $products = Product::all();
+        $clients = User::all();
         $finances = Finance::all();
+        $totalPrice = 0;
+
+        foreach($products as $product){
+            $totalPrice += $product->price;
+        }
+
+               
         return view('erp.finances.index')
-            ->with(compact('finances'));
+            ->with(compact('finances', 'clients', 'products', 'totalPrice'));
     }
 
     /**
@@ -88,4 +97,7 @@ class FinanceController extends Controller
     {
         //
     }
+
+    
+
 }

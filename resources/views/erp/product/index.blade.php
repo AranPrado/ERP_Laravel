@@ -21,7 +21,9 @@
         @endif
 
     @if(Auth::user()->is_admin)
+    
     <div class="col-4">
+      
       <div class="card">
         <div class="card-header">
           <h4>Cadastrar Produto</h4>
@@ -77,7 +79,9 @@
       </div>
     </div>
     @endif
+    
     <div class="col-12 mt-4">
+      
       <div class="card col-12">
         <div class="card-header">
           <h4>Produtos cadastrados</h4>
