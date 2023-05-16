@@ -22,14 +22,16 @@
             </thead>
             <tbody>
               
-              <tr>
-                <th scope="row">1</th>
-                <td>John Doe</td>
-                <td><strong>R$450,00</strong></td>
-                <td>20/2023 - 13:38</td>
-              </tr>
-            
-
+              
+                  
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>John Doe</td>
+                    <td><strong>R$450,00</strong></td>
+                    <td>20/2023 - 13:38</td>
+                  </tr>
+              
+              
             </tbody>
           </table>
         </div>

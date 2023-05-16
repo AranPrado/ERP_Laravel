@@ -113,8 +113,6 @@ class UserController extends Controller
         
         $validator = Validator::make($request->all(), [
             'name' => 'required|min:3',
-            'email' => 'required|email:rfc,dns|unique:users',
-            'access' => 'required',
         ]);
 
         if(!$validator->fails()) {
@@ -131,7 +129,7 @@ class UserController extends Controller
                 ->update([
                     'name' => $request->name,
                     'email' => $request->email,
-                    'is_admin' => $access,
+                    
                 ]);
             
                 try {

@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="row mt-4 mb-4">
-
+    @if(Auth::user()->is_admin)
     <div class="col-12 col-md-4">
         <div class="card shadow">
             <div class="card-body">
@@ -25,6 +25,32 @@
         </div>
     </div>
 
+    @else
+
+    <div class="col-12 col-md-6">
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="d-flex">
+                    <div class="col-8 d-flex flex-column justify-content-center align-items-center">
+                        <span class="h3 text-secondary"><i class="fa fa-user"></i>&nbsp; | &nbsp; Ver minha conta</span>
+                    </div>
+                    
+                </div>
+            </div>
+            
+                
+                    <div class="col-8 d-flex justify-content-end align-items-center">
+                        <span class="h5 text-secondary">Cadastrado em: {{ date('d/m/Y', strtotime(Auth::user()->created_at)) }}</span>
+                    </div>
+                
+            
+            <div class="card-footer text-end border-0">
+                <a href="{{route('users.update', ['id' => Auth::user()->id])}}">Ver minhas informações <i class="fa fa-arrow-right"></i> </a>
+            </div>
+        </div>
+    </div>
+
+    @endif
 
     @if(Auth::user()->is_admin)
     <div class="col-12 col-md-4">
@@ -47,24 +73,49 @@
     </div>
     @endif
 
-    <div class="col-12 col-md-4">
-        <div class="card shadow">
-            <div class="card-body">
-                <div class="d-flex">
-                    <div class="col-4 d-flex flex-column justify-content-center align-items-center">
-                        <i class="fas fa-box fa-3x text-secondary"></i>
-                        <span class="h3 text-secondary">Produtos</span>
-                    </div>
-                    <div class="col-8 d-flex justify-content-end align-items-center">
-                        <span class="h1 fw-bold text-primary">{{$product->count()}}</span>
+    @if(Auth::user()->is_admin)
+
+        <div class="col-12 col-md-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="col-4 d-flex flex-column justify-content-center align-items-center">
+                            <i class="fas fa-box fa-3x text-secondary"></i>
+                            <span class="h3 text-secondary">Produtos</span>
+                        </div>
+                        <div class="col-8 d-flex justify-content-end align-items-center">
+                            <span class="h1 fw-bold text-primary">{{$product->count()}}</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="card-footer text-end border-0">
-                <a href="{{route('products.index')}}">Ver todos <i class="fa fa-arrow-right"></i> </a>
+                <div class="card-footer text-end border-0">
+                    <a href="{{route('products.index')}}">Ver todos <i class="fa fa-arrow-right"></i> </a>
+                </div>
             </div>
         </div>
-    </div>
+
+        @else
+
+        <div class="col-12 col-md-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="col-5 d-flex flex-column justify-content-center align-items-center">
+                            
+                            <span class="h3 text-secondary"><i class="fas fa-box fa-lg text-secondary"></i> &nbsp; Produtos</span>
+                        </div>
+                        <div class="col-6 d-flex justify-content-end align-items-center">
+                            <span class="h1 fw-bold text-primary">{{$product->count()}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-end border-0">
+                    <a href="{{route('products.index')}}">Ver todos <i class="fa fa-arrow-right"></i> </a>
+                </div>
+            </div>
+        </div>
+
+    @endif
 
 </div>
 

@@ -36,14 +36,16 @@
               <input class="form-control" type="email" name="email" id="email" value="{{$user->email}}" required="" />
             </div>
 
-            <div class="mb-3">
-              <label>Tipo de Acesso</label>
-              <select name="access" id="access" class="form-control">
-                <option value="client" @if(!$user->is_admin) selected @endif> Cliente</option>
-                <option value="admin" @if($user->is_admin) selected @endif>Administrador</option>
-              </select>
-            </div>
-
+            @if(Auth::user()->is_admin)
+              <div class="mb-3">
+                <label>Tipo de Acesso</label>
+                <select name="access" id="access" class="form-control">
+                  <option value="client" @if(!$user->is_admin) selected @endif> Cliente</option>
+                  <option value="admin" @if($user->is_admin) selected @endif>Administrador</option>
+                </select>
+              </div>
+            @endif
+            
             <div class="mb-3 text-center">
               <button class="btn btn-primary"><i class="fa fa-save"></i> Salvar</button>
               <button type="reset" class="btn btn-secondary"><i class="fa fa-times"></i> Cancelar</button>

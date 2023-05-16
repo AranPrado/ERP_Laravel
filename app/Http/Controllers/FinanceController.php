@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Finance;
 use Illuminate\Http\Request;
+use App\Models\Product;
+use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 
-use App\Models\Finances;
+
 
 class FinanceController extends Controller
 {
@@ -48,16 +50,19 @@ class FinanceController extends Controller
                 return response()->json($err);
             }
         } else {
-            return redirec()->with('error', 'Verifique se todos os campos foram preenchidos.');
+            return redirect()->with('error', 'Verifique se todos os campos foram preenchidos.');
         }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Finance $finance)
+    public function show(string $id)
     {
-        //
+        $finance = Finance::where('id', $id)->first();
+
+        return view('erp.finances.index')
+            ->with(compact('finance'));
     }
 
     /**

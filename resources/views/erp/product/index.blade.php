@@ -137,9 +137,151 @@
     </div>
   </div>
   </form>
+
+  <!-- Modal -->
+ <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <form id="formModal" method="POST" action="{{route('feedstock.create')}}">
+            @csrf
+            <input id="uid" type="hidden" value="" />
+
+            <div class="mb-3">
+            <label>Nome da matéria-prima</label>
+              <input class="form-control" name="name" id="modalName" value="{{old('name')}}" placeholder="Nome da matéria-prima" required autofocus />
+            </div>
+            <div class="mb-3">
+              <label>Quantidade</label>
+              <input class="form-control" type="number" min="0" name="quantity" id="modalQuantity" value="{{old('quantity')}}" placeholder="Quantidade" required autofocus />
+            </div>
+            <div class="mb-3">
+              <label>Preço</label>
+              <input class="form-control" type="number" min="0" step="0.1" name="price" id="modalPrice" value="{{old('price')}}" placeholder="Preço" required autofocus />
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="sendForm" type="button" class="btn btn-primary">
+          <i class="fa fa-save"></i>
+          Salvar Alteração
+        </button>
+
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          <i class="fa fa-times"></i>
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 @endsection
 
 @section('js')
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+
+  <script>
+
+  function getFeedstock(id) {
+
+    let uid = document.querySelector('#uid');
+    let name = document.querySelector('#modalName');
+    let quantity = document.querySelector('#modalQuantity');
+    let price = document.querySelector('#modalPrice');
+
+    fetch(`/feedstock/${id}`)
+      .then(data => data.json())
+      .then(res => {
+        uid.value = res.feedstock.id
+        name.value = res.feedstock.name
+        quantity.value = res.feedstock.quantity
+        price.value = res.feedstock.price.toFixed(2)
+      })
+  }
+
+  function edit(id) {
+    var galleryModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+      keyboard: false
+    });
+    
+    getFeedstock(id);
+
+    galleryModal.show();
+  }
+
+  document.querySelector('#sendForm').addEventListener('click', function() {
+    let uid = document.querySelector('#uid').value;
+    let name = document.querySelector('#modalName').value;
+    let quantity = document.querySelector('#modalQuantity').value;
+    let price = document.querySelector('#modalPrice').value;
+
+    if(uid !== '' && name !== '' && quantity !== '' && price !== '') {
+
+      fetch(`/feedstock/update/${uid}`, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          'x-csrf-token': '{{csrf_token()}}'
+        },
+        body: JSON.stringify({
+          id: uid,
+          name: name,
+          quantity: quantity,
+          price: price
+        })
+      })
+      .then(data => data.json())
+      .then(res => {
+        if(res.code === 200) {
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: res.message,
+            showConfirmButton: false,
+            timer: 1500
+          }).then(function() {
+            var galleryModal = bootstrap.Modal.getInstance(document.getElementById('exampleModal'));
+            galleryModal.hide();
+            location.reload();
+          })
+        } else {
+          Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: res.message,
+            showConfirmButton: false,
+            timer: 1500
+          })
+        }
+      })
+    }
+
+  })
+  
+  let table = new DataTable('#feedstockTable');
+
+
+  </script>
+@endsection
+
+
+
+
+
+
+
+
+
+{{-- @section('js')
 
   <script>
 
@@ -159,4 +301,4 @@
 
   </script>
 
-@endsection
+@endsection --}}
