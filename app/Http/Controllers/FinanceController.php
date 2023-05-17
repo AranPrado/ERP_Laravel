@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Finance;
 use Illuminate\Http\Request;
-use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 
@@ -17,18 +16,14 @@ class FinanceController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
-        $clients = User::all();
+        
+        
         $finances = Finance::all();
-        $totalPrice = 0;
-
-        foreach($products as $product){
-            $totalPrice += $product->price;
-        }
+        
 
                
         return view('erp.finances.index')
-            ->with(compact('finances', 'clients', 'products', 'totalPrice'));
+            ->with(compact('finances'));
     }
 
     /**
@@ -44,17 +39,22 @@ class FinanceController extends Controller
      */
     public function store(Request $request)
     {
+        
         $validator = Validator::make($request->all(), [
             'client' => 'required',
-            'balance' => 'requied',
+            'balance' => 'required',
         ]);
 
         if(!$validator->fails()) {
-            $finance = new Product();
-            $finance->client = $request->client;
+            $finance = new Finance();
+            $finance->name = $request->client;
             $finance->balance = $request->balance;
             try {
                 $finance->save();
+                $this->clearToCart();
+                return redirect()->route('dashboard')
+                    ->with('status', 'Pedido enviado com sucesso');
+                
             } catch(\PDOException $err) {
                 return response()->json($err);
             }
@@ -98,6 +98,15 @@ class FinanceController extends Controller
         //
     }
 
+    public function clearToCart() {
+        // return response()->json($request->all());
+        session()->forget('cart');
+        $cart = session()->get('cart');
+        
+        
+        return response()->json(['message' => 'Carrinho limpo']);
+
+    }
     
 
 }

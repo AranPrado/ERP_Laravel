@@ -36,10 +36,12 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        
         $validator = Validator::make($request->all(), [
             'name' => 'required|min:3',
             'quantity' => 'required|min:1',
             'price' => 'required|min:1',
+            'feedstocks' => 'required'
         ]);
 
         if(!$validator->fails()){
@@ -124,8 +126,9 @@ class ProductController extends Controller
         $request->session()->push('cart', $request->all());
         $cart = $request->session()->get('cart');
         
+        
         return response()->json($cart);
-        return response()->json(['message' => 'Adicionado ao carrinho']);
+        
 
     }
 

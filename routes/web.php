@@ -54,6 +54,7 @@ Route::middleware('auth')->group(function() {
 
     Route::prefix('finance')->name('finance.')->group(function() {
         Route::get('/', [FinanceController::class, 'index'])->name('index');
+        Route::post('/store', [FinanceController::class, 'store'])->name('store');
     });
 
     Route::get('/cart', function() {
