@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\Expedition;
 use Illuminate\Http\Request;
 
@@ -14,6 +15,8 @@ class ExpeditionController extends Controller
      */
     public function index()
     {
+        
+
         $expedition = Expedition::where('stauts', 'analise');
         return view('erp.expedition.index')
             ->with(compact('expedition'));

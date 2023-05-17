@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->float('balance')->default(0);
+            $table->integer('user_id');
             $table->timestamps();
         });
     }

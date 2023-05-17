@@ -2,7 +2,13 @@
 
 @section('title', 'Dashboard')
 
+
+
 @section('content')
+
+@if(session('status'))
+    <div class="alert alert-success">{{session('status')}}</div>
+@endif
 
 <div class="row mt-4 mb-4">
     @if(Auth::user()->is_admin)
