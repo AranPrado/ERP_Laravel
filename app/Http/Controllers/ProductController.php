@@ -36,12 +36,12 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        
+        //dd(json_encode($request->feedstock));
         $validator = Validator::make($request->all(), [
             'name' => 'required|min:3',
-            'quantity' => 'required|min:1',
-            'price' => 'required|min:1',
-            'feedstocks' => 'required'
+            'quantity' => 'required',
+            'price' => 'required',
+            'feedstock' => 'required'
         ]);
 
         if(!$validator->fails()){
@@ -49,13 +49,19 @@ class ProductController extends Controller
             $product->name = $request->name;
             $product->quantity = $request->quantity;
             $product->price = $request->price;
+            $product->feedstock = json_encode($request->feedstock);
+
+            if($product->save()){
+                return redirect()->route('products.index')->with('status', 'Cadastro realizado com sucesso');
+            } else {
+                return redirect()->route('products.index')->with('error', 'Falha ao tentar salvar. Certifique-se de que o produto não está cadastrado');
+            }
+        } else{
+            //return redirect()->route('products.index')->with('error', 'Falha ao tentar salvar. Certifique-se de que o produto não está cadastrado');
+            $err = $validator->errors()->all();
+            dd($err);
         }
 
-        if($product->save()){
-            return redirect()->route('products.index')->with('status', 'Cadastro realizado com sucesso');
-        } else {
-            return redirect()->route('products.index')->with('error', 'Falha ao tentar salvar. Certifique-se de que o produto não está cadastrado');
-        }
     }
 
     /**

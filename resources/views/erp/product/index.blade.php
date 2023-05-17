@@ -68,7 +68,7 @@
             @foreach($feedstocks as $feedstock)
             <li>
             <label>
-              <input type="checkbox" name="feedstocks[]" value="{{$feedstock->name}}" /> 
+              <input type="checkbox" name="feedstock[]" value="{{$feedstock->name}}" /> 
               <span>{{$feedstock->name}}</span>
             </label>
             </li>
@@ -109,7 +109,13 @@
                         <th scope="row">{{$product->id}}</th>
                         <td>{{$product->name}}</td>
                         <td>{{$product->quantity}}</td>
-                        <td>...</td>
+                        <td>
+                          @if($product->feedstock)
+                          {{ implode(', ', explode(',', $product->feedstock)) }}
+                              
+                            
+                          @endif
+                        </td>
                         <td>R$ {{number_format($product->price, 2, ',', '.')}}</td>
                         <td>
                           @if(Auth::user()->is_admin)
